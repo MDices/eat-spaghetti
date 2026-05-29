@@ -1,6 +1,6 @@
 {
   "name": "@mdices/eat-spaghetti",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Claude Code plugin for detecting and cleaning spaghetti code — quality scoring, characterization tests, and safe micro-step refactoring",
   "scripts": {
     "postinstall": "node postinstall.mjs"

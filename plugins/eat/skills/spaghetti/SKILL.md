@@ -1,5 +1,5 @@
 ---
-name: eat-spaghetti
+name: spaghetti
 description: Use when code quality is degrading, when refactoring tangled/spaghetti code, when removing AI-generated gambiarras, or when a module needs cleanup without breaking dependents. Provides scoped analysis with quality score, generates characterization tests before changes, and refactors in safe micro-steps verified by loop-test between each step. Two modes — reactive (user invokes on a module) and proactive (post-edit hook with cheap circuit-breaker before deep analysis).
 ---
 

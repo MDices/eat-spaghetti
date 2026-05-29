@@ -17,12 +17,12 @@ Restart Claude Code after installing. The skill is immediately available.
 In Claude Code, invoke reactively:
 
 ```
-/eat-spaghetti <scope>
+/eat:spaghetti <scope>
 ```
 
 Or describe naturally: `"audita o módulo de carrinho"`, `"limpa esse arquivo"`.
 
-A post-edit hook can also be configured for proactive mode — see `plugins/eat-spaghetti/skills/eat-spaghetti/hooks/post-edit-check.md`.
+A post-edit hook can also be configured for proactive mode — see `plugins/eat/skills/spaghetti/hooks/post-edit-check.md`.
 
 ## Manual install (GitHub marketplace)
 
@@ -36,7 +36,7 @@ Add to `~/.claude/settings.json`:
     }
   },
   "enabledPlugins": {
-    "eat-spaghetti@mdices": true
+    "eat@mdices": true
   }
 }
 ```

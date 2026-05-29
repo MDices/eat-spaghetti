@@ -3,7 +3,7 @@ import { homedir } from 'os';
 import { join } from 'path';
 
 const MARKETPLACE_NAME = 'mdices';
-const PLUGIN_NAME = 'eat-spaghetti';
+const PLUGIN_NAME = 'eat';
 const GITHUB_REPO = 'mdices/eat-spaghetti';
 
 const claudeDir = join(homedir(), '.claude');
@@ -31,4 +31,4 @@ if (!existsSync(claudeDir)) {
 }
 
 writeFileSync(settingsPath, JSON.stringify(settings, null, 2) + '\n');
-console.log(`eat-spaghetti installed — restart Claude Code to activate the skill`);
+console.log(`eat-spaghetti installed — restart Claude Code, then use /eat:spaghetti`);
