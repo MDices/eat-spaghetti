@@ -54,22 +54,24 @@ So before applying **Remove Dead Code**:
 
 Lies about what a module provides; inflates the surface a reader must hold in their head; bloats bundle size and build time; widens the attack surface; and rots — once unreferenced it is never updated and silently diverges from reality.
 
-## Scoring (recommended change to `scoring.md`)
+## Scoring (implemented in `scoring.md`)
 
-The current `penalty = Σ(severity·count) / scope_size` under-weights dead code: a
+A per-symbol `penalty = Σ(severity·count) / scope_size` under-weights dead code: a
 200-line dead cluster is ~10–20 symbol-findings, which normalizes to a near-zero
-penalty, so dead-code-heavy files still score in the "clean" band and the skill
-defaults to *skip*. (Observed: a file that was ~60% dead code scored ~0.97.)
-Fix with either or both:
+penalty, so dead-code-heavy files would still score in the "clean" band and the
+skill would default to *skip*. (Observed before the fix: a file that was ~60%
+dead code scored ~0.97.) `scoring.md` now implements both of the following:
 
-- **Weight by lines, not symbols.** Add `dead_ratio = dead_lines / scope_size`
-  as its own penalty term (or fold into the structural penalty), so a file that
-  is 60% dead scores ≈ 0.4, not 0.97.
-- **Band floor / gate override.** If `dead_ratio > 0.30`, clamp the band to at
-  most "spaghetti — refactor recommended" regardless of the numeric score, and
-  skip the "score ≥ 0.75 → default no" gate whenever a grep-confirmed dead-code
-  finding exists. The most valuable signal is the dead-code confirmation, not the
-  normalized number.
+- **Weight by lines, not symbols.** `dead_ratio = dead_lines / scope_size` is its
+  own penalty term, carrying weight `1.00`, so a file that is 60% dead scores
+  ≈ 0.4, not 0.97. The per-symbol "dead code" finding is excluded from the AI
+  gambiarra penalty whenever its lines are already counted in `dead_lines`, to
+  avoid double-counting.
+- **Band floor / gate override.** If `dead_ratio > 0.30`, the band is clamped to
+  at most "spaghetti — refactor recommended" regardless of the numeric score, and
+  the "score ≥ 0.75 → default no" gate is skipped whenever a grep-confirmed
+  dead-code finding exists. The most valuable signal is the dead-code
+  confirmation, not the normalized number.
 
 ## Remedy
 

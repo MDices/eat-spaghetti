@@ -44,7 +44,7 @@ End-to-end workflow for analyzing and cleaning spaghetti code without breaking d
 5. Output to the user:
    - Score (0–1) with band label.
    - Top findings sorted by severity then category.
-   - If score ≥ 0.75: ask whether to proceed at all. Default: no.
+   - If score ≥ 0.75: ask whether to proceed at all. Default: no. **Exception:** if a grep-confirmed dead-code finding exists or `dead_ratio > 0.30`, skip this gate and apply the dead-code band floor (see `scoring.md`).
 6. **Stop here in proactive mode.** Save a brief report and exit.
 
 ### Phase 2 — Characterization Tests
@@ -75,7 +75,7 @@ End-to-end workflow for analyzing and cleaning spaghetti code without breaking d
 
 ## Guardrails
 
-- **Score already good** (≥0.75): show minor findings, ask whether to continue. Default no.
+- **Score already good** (≥0.75): show minor findings, ask whether to continue. Default no. **Unless** dead code is confirmed (`dead_ratio > 0.30` or a grep-confirmed dead-code finding) — then the band floor applies and the gate is skipped (see `scoring.md`).
 - **No testable seam**: abort before Phase 3.
 - **Scope > 30 files**: ask to narrow.
 - **Step limit reached**: stop, commit, ask whether to continue.
