@@ -58,6 +58,12 @@ scope_size = total non-blank, non-comment lines across all files in scope
 | stray console.log/print       | low      |
 | single-impl interface         | low      |
 
+> **Caveat — dead code is under-weighted by this per-symbol formula.** A 200-line
+> dead cluster is only ~10–20 symbol-findings, which normalizes to a near-zero
+> penalty, so a file that is mostly dead code can still score in the "clean" band.
+> See `dead-code.md` § Scoring for a lines-based `dead_ratio` term and a
+> band-floor / gate override.
+
 ### Coupling (from `coupling-signals.md`)
 | Finding                       | Severity |
 |-------------------------------|----------|

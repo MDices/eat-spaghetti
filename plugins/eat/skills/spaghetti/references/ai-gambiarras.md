@@ -31,6 +31,7 @@ Anti-patterns common in AI-generated code that classical refactoring books don't
 **Detect:** grep for symbol name; if 1 match (the definition), it's unused.
 **Why bad:** increases cognitive load, lies about what the module provides.
 **Remedy:** delete.
+**See:** `dead-code.md` — full reference: types (unreachable / unused / redundant / partially dead / dead types), per-language tooling (Knip, Vulture, Go `deadcode`, rustc), false-positive caveats (reflection / frameworks / public API / entry points — the grep test is safe only for self-contained modules), and a lines-based scoring fix.
 
 ## commented-out code
 

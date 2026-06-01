@@ -38,7 +38,7 @@ End-to-end workflow for analyzing and cleaning spaghetti code without breaking d
 ### Phase 1 — Analysis & Score
 
 1. Read `references/scoring.md`.
-2. Read `references/code-smells.md`, `references/ai-gambiarras.md`, `references/coupling-signals.md`.
+2. Read `references/code-smells.md`, `references/ai-gambiarras.md`, `references/coupling-signals.md`, `references/dead-code.md`.
 3. For every file in scope, apply each detection heuristic. Collect findings: file, line, category, severity, suggested refactoring.
 4. Compute the score per `scoring.md`.
 5. Output to the user:
