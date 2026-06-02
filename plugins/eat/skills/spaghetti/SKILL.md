@@ -30,7 +30,8 @@ End-to-end workflow for analyzing and cleaning spaghetti code without breaking d
 2. `Grep` and `Glob` for related terms (component names, route paths, store keys).
 3. Show the candidate list to the user. Confirm before expanding.
 4. From confirmed seeds, expand the dependency tree via grep on imports and call sites until no new files appear.
-5. Hard cap: 30 files. If exceeded, ask the user to narrow.
+5. **Blast radius** — run `node scripts/blast-radius.mjs <seed> --root <repo>` (or `npx @mdices/eat-spaghetti-blast-radius`) on each seed. It reports **importers (fan-in)**, **cross-feature dependents (feature→feature)**, and **co-change** (files that change together in git history — coupling the import graph can't see). See `references/blast-radius.md`. Use it to: (a) catch dependents that live OUTSIDE the scope, and (b) flag refactor risk — a high-fan-in or cross-feature seed MUST get characterization tests in Phase 2 before any change.
+6. Hard cap: 30 files. If exceeded, ask the user to narrow.
 
 **Proactive:**
 1. Scope = edited file(s) + 1-level imports/importers only.
@@ -42,9 +43,11 @@ End-to-end workflow for analyzing and cleaning spaghetti code without breaking d
 3. For every file in scope, apply each detection heuristic. Collect findings: file, line, category, severity, suggested refactoring.
 4. Compute the score per `scoring.md`.
 5. Output to the user:
-   - Score (0–1) with band label.
+   - `scope_score` (headline) AND `worst_file_score` + the file that produced it.
+   - **Band label from `min(scope_score, worst_file_score)`** — never `scope_score` alone (anti-dilution; see `scoring.md`).
+   - **Hotspots**: every file with `file_penalty ≥ 0.20` OR `≥ 6 findings`, with its `file_score` and top findings.
    - Top findings sorted by severity then category.
-   - If score ≥ 0.75: ask whether to proceed at all. Default: no. **Exception:** if a grep-confirmed dead-code finding exists or `dead_ratio > 0.30`, skip this gate and apply the dead-code band floor (see `scoring.md`).
+   - If band-score ≥ 0.75: ask whether to proceed at all. Default: no. **Exception (skip the gate):** if a hotspot exists, or a grep-confirmed dead-code finding exists, or `dead_ratio > 0.30`. Apply the matching band floor (density / dead-code) from `scoring.md`.
 6. **Stop here in proactive mode.** Save a brief report and exit.
 
 ### Phase 2 — Characterization Tests

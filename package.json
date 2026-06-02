@@ -1,9 +1,12 @@
 {
   "name": "@mdices/eat-spaghetti",
-  "version": "1.0.3",
-  "description": "Claude Code plugin for detecting and cleaning spaghetti code — quality scoring, characterization tests, and safe micro-step refactoring",
+  "version": "1.1.0",
+  "description": "Claude Code plugin for detecting and cleaning spaghetti code — quality scoring (anti-dilution), blast-radius, characterization tests, and safe micro-step refactoring",
   "scripts": {
     "postinstall": "node postinstall.mjs"
+  },
+  "bin": {
+    "eat-spaghetti-blast-radius": "plugins/eat/skills/spaghetti/scripts/blast-radius.mjs"
   },
   "files": [
     "postinstall.mjs",
