@@ -13,7 +13,7 @@ End-to-end workflow for analyzing and cleaning spaghetti code without breaking d
 2. Never change observable behavior during refactoring. Suspect bugs are reported, not fixed.
 3. Never invent new abstractions. Only apply refactorings from `references/refactorings.md`.
 4. Never skip Phase 2 (characterization tests) without warning the user.
-5. Run loop-test between every Phase 3 micro-step.
+5. Re-run the filtered test suite between every Phase 3 micro-step, using the project's own test runner (agnostic — e.g. `npx vitest related --run <file>`, `npm test -- <pattern>`, `pytest <path>`, `go test ./...`). On Claude Code the `loop-test` skill is a convenient wrapper; on Codex/others run the command directly. See `references/agent-tools.md`.
 6. Never use `--no-verify`, `--force`, or any flag that bypasses project guards.
 
 ## Modes
@@ -63,7 +63,7 @@ End-to-end workflow for analyzing and cleaning spaghetti code without breaking d
 1. Read `references/refactorings.md`.
 2. For each approved finding, look up the recommended refactoring.
 3. Apply ONE refactoring at a time, following its Mechanics exactly.
-4. After each step, invoke `loop-test` on the **filtered suite**: tests that directly or transitively import a touched file.
+4. After each step, re-run the **filtered suite** (tests that directly or transitively import a touched file) via the project's test runner — `npx vitest related --run <file>`, `npm test -- <pattern>`, `pytest <path>`, `go test ./pkg/...`, etc. (see `references/agent-tools.md`). On Claude Code you may use the `loop-test` skill as a wrapper for this.
    - Pass → commit: `refactor(eat-spaghetti): <refactoring> in <file>`. Continue.
    - Fail → revert the step (`git checkout -- <files>` or equivalent). Mark the finding as blocked. Continue with the next finding.
 5. Stop conditions: all findings handled, OR step limit (default 15) hit, OR user interrupted.
